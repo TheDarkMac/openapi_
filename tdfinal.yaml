@@ -1,0 +1,103 @@
+openapi: 3.0.3
+info:
+  title: FOOTBALL COMPETITION
+  description:
+  version: 1.0.0
+servers:
+  - url: 'http://football.com'
+paths:
+  /competitions:
+    get:
+      description: affiche la liste des competitions
+      parameters:
+        - name: competitionName
+          in: query
+          description: prendre la liste des competitions grace au nom
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: succes
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: '#/components/schemas/Competition'
+
+    post:
+      description: cree une nuvelle competition
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/Competition'
+      responses:
+        200:
+          description: nouvelle equipe cree avec succes
+
+  /teams:
+    get:
+      description: envoie la liste des equipes
+      responses:
+        '200':
+          description: liste des teams
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+    post:
+      description: creation de nouvelles equipes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Team"
+
+
+
+
+components:
+  schemas:
+    Competition:
+      type: object
+      properties:
+        name:
+          type: string
+          description: nom de la competion
+        country:
+          type: string
+          description: le pays ou se deroule la competition
+        teams:
+          type: array
+          $ref: '#/components/schemas/Team'
+    Team:
+      type: object
+      properties:
+        name:
+          type: string
+        slogan:
+          type: string
+        players:
+          type: array
+          $ref: '#/components/schemas/Player'
+    Player:
+      type: object
+      description: decrit les caracteristiques d'un joueur
+      properties:
+        name:
+          type: string
+        number:
+          type: integer
+        strongFoot:
+          type: string
+          enum:
+            - left
+            - right
