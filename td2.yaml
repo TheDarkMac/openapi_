@@ -1,0 +1,111 @@
+openapi: 3.0.3
+info:
+  title: STD23096 - TD2
+  version: '1.0.0'
+servers:
+  - url: http://localhost.std23096.com
+paths:
+  /customers:
+    get:
+      description: Obtenir la liste des customer.
+      parameters:
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: obtention de la liste avec succes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+    post:
+      description: Créer un customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CreateCustomer'
+      responses:
+        '201':
+          description: Clients créés avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+    put:
+      description:  Mettre à jour un customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Customer'
+      responses:
+        '200':
+          description: Clients mis à jour avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+    delete:
+      description: Supprimer un customer avec son identifiant.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomerIdentifier'
+      responses:
+        '200':
+          description: Clients supprimés avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+components:
+  schemas:
+    Customer:
+      allOf:
+        - $ref: '#/components/schemas/CustomerIdentifier'
+        - $ref: '#/components/schemas/CreateCustomer'
+    CustomerIdentifier:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identifiant du client
+    CreateCustomer:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Nom du client
+        age:
+          type: integer
+          description: Âge du client
+      required:
+        - name
+        - age
