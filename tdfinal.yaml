@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: FOOTBALL COMPETITION
-  description:
+  description: football competition
   version: 1.0.0
 servers:
   - url: 'http://football.com'
@@ -23,17 +23,19 @@ paths:
             application/json:
               schema:
                 type: array
-                $ref: '#/components/schemas/Competition'
+                items:
+                  $ref: '#/components/schemas/Competition'
 
     post:
-      description: cree une nuvelle competition
+      description: cree une nouvelle competition
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/Competition'
+              items:
+                $ref: '#/components/schemas/Competition'
       responses:
         200:
           description: nouvelle equipe cree avec succes
@@ -57,11 +59,12 @@ paths:
         content:
           application/json:
             schema:
-              type: array
+              type: object
               items:
                 $ref: "#/components/schemas/Team"
-
-
+      responses:
+        200:
+          description: ajour d equipe avec succes
 
 
 components:
@@ -77,7 +80,8 @@ components:
           description: le pays ou se deroule la competition
         teams:
           type: array
-          $ref: '#/components/schemas/Team'
+          items:
+            $ref: "#/components/schemas/Team"
     Team:
       type: object
       properties:
@@ -87,7 +91,8 @@ components:
           type: string
         players:
           type: array
-          $ref: '#/components/schemas/Player'
+          items:
+            $ref: '#/components/schemas/Player'
     Player:
       type: object
       description: decrit les caracteristiques d'un joueur
